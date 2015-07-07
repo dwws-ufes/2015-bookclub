@@ -1,0 +1,107 @@
+<!DOCTYPE  composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/templates/default/decorator.xhtml">
+
+	<ui:define name="title">
+		<h:outputText value="Leituras"
+			rendered="#{(! manageLeiturasController.readOnly) and (manageLeiturasController.selectedEntity.id == null)}" />
+		<h:outputText value="#{msgs['manageLeituras.title.update']}"
+			rendered="#{(! manageLeiturasController.readOnly) and (manageLeiturasController.selectedEntity.id != null)}" />
+		<h:outputText value="#{msgs['manageLeituras.title.retrieve']}"
+			rendered="#{manageLeiturasController.readOnly}" />
+	</ui:define>
+
+	<ui:define name="body">
+		<h1>
+			<h:outputText value="Leituras"
+				rendered="#{(! manageLeiturasController.readOnly) and (manageLeiturasController.selectedEntity.id == null)}" />
+			<h:outputText value="#{msgs['manageLeituras.title.update']}"
+				rendered="#{(! manageLeiturasController.readOnly) and (manageLeiturasController.selectedEntity.id != null)}" />
+			<h:outputText value="#{msgs['manageLeituras.title.retrieve']}"
+				rendered="#{manageLeiturasController.readOnly}" />
+		</h1>
+
+		<div class="crud">
+			<ui:decorate template="/resources/templates/default/form.xhtml">
+				<h:form id="form">
+
+					
+					<h:outputText value="Livro " />
+					<p:selectOneMenu value="#{manageLeiturasController.idlivro}"
+						styleClass="form-control " id="livro">
+						<f:selectItem itemLabel="#{msgs['manageLeituras.text.selectbook']}" />
+						<f:selectItems value="#{manageLeiturasController.listalivro}"
+							var="livro" itemLabel="#{livro.titulo}"
+							itemValue="#{livro.id}" />
+					</p:selectOneMenu>
+
+
+					<br />
+					<h:outputText value="Usuario " />
+					<p:selectOneMenu value="#{manageLeiturasController.idusuario}"
+						styleClass="form-control " id="usuario">
+						<f:selectItem itemLabel="#{msgs['manageLeituras.text.selectuser']}" />
+						<f:selectItems value="#{manageLeiturasController.listausuarios}"
+							var="usuario" itemLabel="#{usuario.nome}"
+							itemValue="#{usuario.id}" />
+					</p:selectOneMenu>
+
+
+					<br />
+					<h:outputText value="Situaçao " />
+					<p:inputText id="Situaçao"
+						value="#{manageLeiturasController.situacao}">
+					</p:inputText>
+
+
+
+
+					<ui:decorate
+						template="/resources/templates/default/formbutton.xhtml">
+						<h:panelGroup rendered="#{! manageLeiturasController.readOnly}">
+							<p:commandButton action="#{manageLeiturasController.list}"
+								value="#{msgs['crud.button.cancel']}" immediate="true"
+								icon="buttonCancel" />
+							<p:commandButton action="#{manageLeiturasController.salvarleitura}"
+								value="#{msgs['crud.button.save']}" icon="buttonOk"
+								update=":form :globalMessages" />
+							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}"
+								action="#{manageLeiturasController.list}" immediate="true" />
+							<p:hotkey bind="#{msgs['crud.hotkey.save']}"
+								action="#{manageLeiturasController.save}"
+								update=":form :globalMessages" />
+						</h:panelGroup>
+						<h:panelGroup rendered="#{manageLeiturasController.readOnly}">
+							<p:commandButton action="#{manageLeiturasController.list}"
+								value="#{msgs['crud.button.back']}" immediate="true"
+								icon="buttonBack" />
+							<p:hotkey bind="#{msgs['crud.hotkey.backToList']}"
+								action="#{manageLeiturasController.list}" immediate="true" />
+						</h:panelGroup>
+					</ui:decorate>
+				</h:form>
+			</ui:decorate>
+		</div>
+	</ui:define>
+
+	<ui:define name="help">
+		<h4>
+			<h:outputText value="#{msgs['text.hotkeys']}" />
+			:
+		</h4>
+		<ul>
+			<li><b><h:outputText
+						value="#{msgs['crud.hotkey.focusFirstField']}" /></b>: <h:outputText
+					value="#{msgs['crud.help.hotkeys.focusFirstField']}" />;</li>
+			<li><b><h:outputText
+						value="#{msgs['crud.hotkey.backToList']}" /></b>: <h:outputText
+					value="#{msgs['crud.help.hotkeys.backToList']}" />;</li>
+			<li><b><h:outputText value="#{msgs['crud.hotkey.save']}" /></b>:
+				<h:outputText value="#{msgs['crud.help.hotkeys.save']}" />.</li>
+		</ul>
+	</ui:define>
+</ui:composition>
